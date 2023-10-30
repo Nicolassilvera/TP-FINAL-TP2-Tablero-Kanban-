@@ -2,7 +2,9 @@
   <div>
     <nav class="navBar">
         <ul>
-            <RouterLink to="/todos"> Tablero  </RouterLink>
+            <RouterLink to="/todos"> Tableros </RouterLink>
+            <RouterLink to="/todos"> Tableros </RouterLink>
+            
         </ul>
     </nav>
 
@@ -13,8 +15,6 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import TodosView from "./TodosView.vue";
-
-
 
 export default {
     components:{

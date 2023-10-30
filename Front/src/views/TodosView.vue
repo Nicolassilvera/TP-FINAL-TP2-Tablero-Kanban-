@@ -6,17 +6,22 @@
         </ul>
         <RouterView />
       </nav>
-      <div class="">
-        <InputNewBoard @on-new-item="(name) => newBoard(name)"/>
+      <div class="board-crud-container">
+        <div class="board input-board-name" style="background-color: #0F67B0;">
+          <div class="tittle">New Table</div>
+          <InputNewBoard @on-new-board="(name) => newBoard(name)"/>
+        </div>   
+        <div class="board " style="background-color: #A93226;">
+          a
+        </div> 
       </div>
-  
       <div class="boards-container">
         <div class="boards">
           <div class="board" @drop="onDrop($event, board)" @dragover.prevent @dragenter.prevent v-for="board in boards" :key="board.id">
             <div class="bar">
               <div class="tittle">{{board.name}}</div>
               <div class="crud">
-                <button class="button" @click="removeBoard(board)" style="color:red;background-color: #191616; ">x</button>
+                <button class="button" @click="removeBoard(board.id)" style="color:red;background-color: #191616; ">x</button>
                 <button class="button image-button" @click="editName(board)" style="color: greenyellow;background-color: #191616;"></button>
               </div>
             </div>
@@ -25,7 +30,7 @@
               <div class="item" draggable="true" @dragstart="startDrag($event, board, item)" v-for="item in board.items" :key="item.id">
                 <div class="text">{{item.title}}</div>
                 <div class="crud">
-                    <button class="button" @click="removeItem(board, item)">x</button>
+                    <button class="button" @click="removeItem(board, item)" style="color:red;">x</button>
                 </div>
               </div>
             </div>
@@ -42,27 +47,34 @@
   import InputNewBoard from "./InputNewBoard.vue";
   import { ref } from "vue"
 
+  import axios from "axios"
+
   export default {
     components:{
         InputNew,InputNewBoard
     },
     data() {
       return {
-        boards: reactive([
-          {
-            id: crypto.randomUUID(),
-            name: "Bienvenido",
-            items: [
-              {
-                id: crypto.randomUUID(),
-                title: "Ejemplo"
-              }
-            ]
-          }
-        ])
+        boards:[]
       };
     },
     methods: {
+      async saveNewBoard(newBoard){
+        try {
+            await axios.post("http://localhost:5052/boards", newBoard);
+          this.loadData()
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      async loadData(){
+        try {
+          let rta = await axios.get("http://localhost:5052/boards");
+          this.boards = rta.data;          
+        } catch (error) {
+          console.log(error);
+        }
+      },
       handleNewItem(text, board) {
         board.items.push({
           id: crypto.randomUUID(),
@@ -70,11 +82,14 @@
         });
       },
       newBoard(name){
-        this.boards.push({
-            id: crypto.randomUUID(),
-            name: name.value,
-            items: [],
-          });
+        //this.boards.push({
+        //  id: crypto.randomUUID(),
+        //  name: name.value,
+        //  items: [],
+        //});
+        const newBoard = {id:crypto.randomUUID(), name: name.value, items:[]}
+        this.boards.push(newBoard);
+        this.saveNewBoard(newBoard);
       },
       editName(board) {
         const name = prompt("New Name of Board");
@@ -100,15 +115,19 @@
           board.items.splice(index, 1);
         }
       },
-      removeBoard(board){
-        // Encuentra el índice del elemento en la lista de items del tablero
-        const index = this.boards.findIndex(i => i.id === board.id);
-        if (index !== -1) {
-          // Elimina el elemento del array
-          this.boards.splice(index, 1);
+      async removeBoard(id){
+        try {
+          const index = this.boards.findIndex(i => i.id == id);
+          this.boards.splice(index, 1)
+          await axios.delete("http://localhost:5052/boards/" + id);
+        } catch (error) {
+          console.log(error)
         }
       }
-    }  
+    },
+    mounted(){
+      this.loadData();
+    }
   }
   </script>
   
@@ -177,7 +196,6 @@
     border: none; 
     cursor: pointer; 
     background-color: #000000 ;
-    color:red
   }
 
   .tittle{
@@ -198,6 +216,16 @@
   width: 5%;
 }
 
+.input-board-name{
+  width:15%;
+  margin-right: 10px;
+}
+
+.board-crud-container{
+  display:flex;
+  margin-bottom: 45px;
+  margin-top:20px;
+}
 
 /* nav buttons */
 

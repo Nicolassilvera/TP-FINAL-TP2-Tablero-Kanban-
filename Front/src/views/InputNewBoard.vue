@@ -10,37 +10,23 @@
   import { ref } from "vue"
   
   const text = ref("");
-  const emits = defineEmits(["onNewItem"]);
+  const emits = defineEmits(["onNewBoard"]);
   
   function handleSubmit(){
     if(text != ""){
         // mandar a llamar el emit
-        emits("onNewItem", text);
+        emits("onNewBoard", text);
         text.value = "";
     }
   }
   </script>
   
   <style scoped>
-  
-
-
-  a{
-    margin-right: 15px;
-    text-decoration: none;
-    color: white;
-    transition: ease-in-out  .2s
-  }
-
-  a:hover {
-    color:#62953B;
-  }
-
   .textInputWrapper {
-    display: block;
     position: relative;
-    width: 30%;
+    width: 240px;
     margin: 12px 5px;
+    margin-right: 5px;
     --accent-color: #62953B;
   }
   
