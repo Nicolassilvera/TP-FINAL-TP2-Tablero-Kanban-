@@ -40,6 +40,31 @@ app.delete("/boards/:id", (req, res) =>{
     boards.splice(index, 1)
 })
 
+app.delete("/boards", (req, res) =>{
+    boards.splice(0);
+})
+
+app.put("/boards/:id", (req, res) =>{
+    try {
+        const index = boards.findIndex(i => i.id === req.params.id);
+        if(index != -1){
+            boards.splice(index, 1, req.body)    
+        } else throw new Error("Index out of bound");
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+app.put("/boards", (req, res) =>{
+    try {
+        for (let i = 0; i < req.body.length; i++) {
+            boards[i] = req.body[i];
+        }
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 //----------------------------------
 
 app.listen(5052, ()=>{

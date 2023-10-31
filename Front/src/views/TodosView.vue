@@ -10,10 +10,16 @@
         <div class="board input-board-name" style="background-color: #0F67B0;">
           <div class="tittle">New Table</div>
           <InputNewBoard @on-new-board="(name) => newBoard(name)"/>
-        </div>   
-        <div class="board " style="background-color: #A93226;">
-          a
-        </div> 
+        </div>
+        <div class="board-crud-options">
+          <button class="board save-all" @click="saveAll">
+            <a style="margin-right: 0px;">Save All</a>
+          </button> 
+          <button class="board delete-all" @click="deleteAll">
+            <a style="margin-right: 0px;">Delete All</a>
+          </button> 
+
+        </div>
       </div>
       <div class="boards-container">
         <div class="boards">
@@ -25,12 +31,12 @@
                 <button class="button image-button" @click="editName(board)" style="color: greenyellow;background-color: #191616;"></button>
               </div>
             </div>
-            <InputNew @on-new-item="(text) => handleNewItem(text, board)"/>
+            <InputNew @on-new-item="(text) => newItem(text, board)"/>
             <div class="items">
               <div class="item" draggable="true" @dragstart="startDrag($event, board, item)" v-for="item in board.items" :key="item.id">
                 <div class="text">{{item.title}}</div>
                 <div class="crud">
-                    <button class="button" @click="removeItem(board, item)" style="color:red;">x</button>
+                    <button class="button" @click="removeItem(board, item.id)" style="color:red;">x</button>
                 </div>
               </div>
             </div>
@@ -59,6 +65,21 @@
       };
     },
     methods: {
+      async saveAll(){
+        try {
+          await axios.put("http://localhost:5052/boards", this.boards);
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      async deleteAll(){
+        try {
+          this.boards.splice(0);
+          await axios.delete("http://localhost:5052/boards");
+        } catch (error) {
+          console.log(error)
+        }
+      },
       async saveNewBoard(newBoard){
         try {
             await axios.post("http://localhost:5052/boards", newBoard);
@@ -75,18 +96,20 @@
           console.log(error);
         }
       },
-      handleNewItem(text, board) {
+       async newItem(text, board) {
         board.items.push({
           id: crypto.randomUUID(),
           title: text.value,
         });
+        try {
+          await axios.put("http://localhost:5052/boards/" + board.id, board );
+          await this.loadData();
+        } catch (error) {
+          console.log(error);
+        }
+
       },
       newBoard(name){
-        //this.boards.push({
-        //  id: crypto.randomUUID(),
-        //  name: name.value,
-        //  items: [],
-        //});
         const newBoard = {id:crypto.randomUUID(), name: name.value, items:[]}
         this.boards.push(newBoard);
         this.saveNewBoard(newBoard);
@@ -100,26 +123,34 @@
       startDrag(event, board, item) {
         event.dataTransfer.setData("text/plain", JSON.stringify({ boardId: board.id, itemId: item.id }));
       },
-      onDrop(event, destiny) {
+      async onDrop(event, destiny) {
         const { boardId, itemId } = JSON.parse(event.dataTransfer.getData("text/plain"));
         const originalBoard = this.boards.find(item => item.id == boardId);
         const originalItem = originalBoard.items.find(item => item.id == itemId);
         destiny.items.push({ ...originalItem });
         originalBoard.items = originalBoard.items.filter((item) => item != originalItem);
+        await this.saveAll();
       },
-      removeItem(board, item) {
-        // Encuentra el índice del elemento en la lista de items del tablero
-        const index = board.items.findIndex(i => i.id === item.id);
-        if (index !== -1) {
-          // Elimina el elemento del array
-          board.items.splice(index, 1);
+      // preguntar en clase como resolver con .delete
+      async removeItem(board, itemID) {
+        try {
+          const index = board.items.findIndex(i => i.id === itemID);
+          if (index !== -1) {
+            board.items.splice(index, 1);
+            await axios.put("http://localhost:5052/boards/" + board.id , board );
+          }
+        } catch (error) {
+          console.log(error)
         }
       },
       async removeBoard(id){
         try {
           const index = this.boards.findIndex(i => i.id == id);
-          this.boards.splice(index, 1)
+          if (index !== -1) {
+          // Elimina el elemento del array
+          this.boards.splice(index, 1);
           await axios.delete("http://localhost:5052/boards/" + id);
+          }
         } catch (error) {
           console.log(error)
         }
@@ -225,6 +256,23 @@
   display:flex;
   margin-bottom: 45px;
   margin-top:20px;
+}
+
+.board-crud-options{
+  display: flex;
+  margin-right: 10px;
+}
+
+.delete-all{
+  margin-right: 15px;
+  background-color: #A93226;
+  display: block;
+}
+
+.save-all{
+  margin-right: 15px;
+  background-color: #283747;
+  display: block;
 }
 
 /* nav buttons */
