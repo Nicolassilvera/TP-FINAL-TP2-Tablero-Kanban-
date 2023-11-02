@@ -3,6 +3,7 @@
       <nav class="navBar">
         <ul>
           <RouterLink to="/"> Home </RouterLink>
+          <a>holas</a>
         </ul>
         <RouterView />
       </nav>
@@ -18,7 +19,6 @@
           <button class="board delete-all" @click="deleteAll">
             <a style="margin-right: 0px;">Delete All</a>
           </button> 
-
         </div>
       </div>
       <div class="boards-container">
@@ -278,4 +278,7 @@
 /* nav buttons */
 
 
+
   </style>
+  
+  
