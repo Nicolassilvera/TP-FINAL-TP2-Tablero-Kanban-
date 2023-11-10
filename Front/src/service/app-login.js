@@ -1,5 +1,5 @@
 import axios from "axios"
-const apiUser = axios.create({
+const apiLogin = axios.create({
     baseURL:"http://localhost:5052/api/login",
     headers:{
         Accept: "application/json",
@@ -9,6 +9,6 @@ const apiUser = axios.create({
 
 export default{
     async login(user){
-        return await apiUser.post("/", user);
+        return await apiLogin.post("/", user);
     }
 }

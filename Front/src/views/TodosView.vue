@@ -3,7 +3,6 @@
         <nav class="navBar">
             <ul>
                 <RouterLink to="/"> Home </RouterLink>
-                <a>holas</a>
             </ul>
             <RouterView />
         </nav>
@@ -61,7 +60,7 @@ export default {
         InputNew, InputNewBoard
     },
     data() {
-        return {
+        return { 
             boards: []
         };
     },
@@ -123,7 +122,7 @@ export default {
                     this.saveAll();
                 }
             } catch (error) {
-
+                console.log(error);
             }
         },
         startDrag(event, board, item) {
@@ -169,6 +168,15 @@ export default {
 </script>
 
 <style scoped>
+
+body{
+    --color: rgba(114, 114, 114, 0.3);
+  background-color: #191a1a;
+  background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+      linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
+  background-size: 55px 55px;
+}
+
 a {
     margin-right: 15px;
     text-decoration: none;
@@ -177,7 +185,7 @@ a {
 }
 
 a:hover {
-    color: #62953B;
+    color: #2d8cf0;
 }
 
 .boards {

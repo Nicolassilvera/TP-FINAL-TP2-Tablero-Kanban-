@@ -1,6 +1,5 @@
 import express from "express"
 import cors from "cors"
-import jsonwebtoken from "jsonwebtoken"
 import router from "./routes/router.js"
 //------------------------------------------------------------------
 

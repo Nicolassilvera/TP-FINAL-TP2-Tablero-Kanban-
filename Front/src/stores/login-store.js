@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import axios from "axios";
 import appLogin from "../service/app-login.js"
 export const loginStore = defineStore("login", {
     state:() =>{
@@ -9,15 +8,14 @@ export const loginStore = defineStore("login", {
         }
     },
     actions: {
-        async login(user) {
+        async login(user) { 
             try {
                 const data = await appLogin.login(user);
-                console.log(data);
-                if(datos.status == 200) {
-                    this.estaLogeado = true;
-                    this.usuario.email = usuario.email;
+                if(data.status == 200) {
+                    this.estaLogueado = true;
+                    this.usuario.email = user.email;
                     localStorage.setItem('usuario',JSON.stringify(
-                    {email:usuario.email, token: datos.data.token}) )
+                    {email:user.email, token: data.data.token}) )
                 } else {
                     this.estaLogeado = false;
                 }
@@ -27,6 +25,6 @@ export const loginStore = defineStore("login", {
         }
     },
     getters:{
-        getBoards: (state) => state.boards
+
     }
 });
