@@ -8,6 +8,10 @@ const users = [
     {email:"admin@test.com", password:"1234", rol:"admin"},
 ]
 
+
+
+
+
 userRoutes.post("/", (req, res) =>{
     if(req.body){
         const user = users.find( i => i.email == req.body.email && i.password == req.body.password);

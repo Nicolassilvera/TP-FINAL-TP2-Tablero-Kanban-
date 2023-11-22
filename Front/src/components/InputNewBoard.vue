@@ -24,7 +24,7 @@
   <style scoped>
   .textInputWrapper {
     position: relative;
-    width: 240px;
+    width: 95%;
     margin: 12px 5px;
     margin-right: 5px;
     --accent-color: #62953B;

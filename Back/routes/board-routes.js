@@ -1,6 +1,8 @@
 import { Router } from "express";
+import BoardController from "../controller/BoardController";
+
 const boardRoutes = Router();
-//----------------------------------------
+const boardController = new BoardController();
 
 const board = {
     id: crypto.randomUUID(),
@@ -16,6 +18,16 @@ const board = {
 const boards = [board];
 
 //----------------------------------------
+
+boardRoutes.get("", boardController.getAllBoards);
+boardRoutes.get("/:id", boardController.getBoardById);
+boardRoutes.post("/", boardController.createBoard);
+boardRoutes.put("/:id", boardController.updateBoard);
+boardRoutes.delete("/: id", boardController.deleteBoardById);
+
+//----------------------------------------
+
+
 
 boardRoutes.get("/", (req, res) =>{
     res.json(boards);
