@@ -61,7 +61,7 @@ class ItemControlller {
                 } 
             });
             if(deletedITem == null) throw new Error("Item not found");
-            res.status(200).json({ success: true, message: "Board removed" });
+            res.status(200).send({ success: true, message: "Board removed" });
         } catch (error) {
             res.status(400).send({success:false, message: error.message});
         }

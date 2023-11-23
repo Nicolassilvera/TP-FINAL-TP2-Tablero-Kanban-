@@ -7,7 +7,7 @@ class UserControlller {
     getAllUsers = async (req, res)=>{
         try {
             const users = await User.findAll({
-                attributes: ["id", "name", "email"],
+                attributes: ["id", "name"],
                 include: [{
                     model: Role, 
                     attributes: ["name"]  
@@ -67,7 +67,7 @@ class UserControlller {
                 } 
             });
             if(deletedUser == null) throw new Error("User not found");
-            res.status(200).json({ success: true, message: "User removed" });
+            res.status(200).send({ success: true, message: "User removed" });
         } catch (error) {
             res.status(400).send({success:false, message: error.message});
         }
@@ -83,24 +83,25 @@ class UserControlller {
                     attributes: ["name"] 
                 }],
             });
+            if(!user) throw new Error("User not found");
             const validate = await user.validatePassword(password);
-            if(!validate || !user) throw new Error("Invalid Credentials");
+            if(!validate) throw new Error("Invalid Credentials");
             const payload = {
                 id: user.id,
                 role: user.Role
             }
             const token = generateToken(payload);
             res.cookie("token", token);
-            res.status(200).json({ success: true, message: "User logued"});
+            res.status(200).send({ success: true, message: "User logued"});
         } catch (error) {
             res.status(400).send({success:false, message: error.message});
         }
     }
 
-    me = async ()=>{
+    me = async (req, res)=>{
         try {
-            const {user} = req.body;
-            res.status(200).send({success:true, message:"", data: "ok"});
+            const { user } = req;
+            res.status(200).send({success:true, message:"Ok", user:user});
         } catch (error) {
             res.status(400).send({success:false, message: error.message});
         }

@@ -9,7 +9,6 @@ class User extends Model{
     }
 }
 
- 
 User.init({
     name:{
         type: DT.STRING,

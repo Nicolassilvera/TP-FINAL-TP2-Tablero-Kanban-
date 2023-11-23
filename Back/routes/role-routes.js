@@ -2,7 +2,7 @@ import { Router } from "express";
 import RoleController from "../controller/RoleController.js";
 
 const roleRoutes = Router();
-const roleController=new RoleController()
+const roleController = new RoleController()
 
 roleRoutes.get("", roleController.getAllRoles);
 roleRoutes.get("/:id",roleController.getRoleById);

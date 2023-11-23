@@ -19,7 +19,7 @@ class RoleController {
         try {
             const { name } = req.body;
             const role = await Role.create({ name });
-            res.status(200).send({ success: true, message: "Role created", role });
+            res.status(200).send({ success: true, message: "Role created", data: role });
         } catch (error) {
             res.status(400).send({ success: false, message: error.message });
         }

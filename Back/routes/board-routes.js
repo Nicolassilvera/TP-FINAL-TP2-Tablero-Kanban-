@@ -10,5 +10,4 @@ boardRoutes.post("/", boardController.createBoard);
 boardRoutes.put("/:id", boardController.updateBoard);
 boardRoutes.delete("/: id", boardController.deleteBoardById);
 
-
 export default boardRoutes;

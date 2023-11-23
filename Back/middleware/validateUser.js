@@ -1,4 +1,4 @@
-import { verifyToken } from "../utils/jwt";
+import { verifyToken } from "../utils/jwt.js";
 
 export const validateUser = async (req, res, next)=>{
     try {
@@ -8,6 +8,6 @@ export const validateUser = async (req, res, next)=>{
         req.user = user;
         next();
     } catch (error) {
-        res.status(200).send({success:false, message:error.message});
+        res.status(401).send({success:false, message:error.message});
     }
 }
