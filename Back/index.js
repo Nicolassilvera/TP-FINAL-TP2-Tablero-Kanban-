@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router)
 
-await connection.sync({force:true}).then(()=>{
+await connection.sync({force:false}).then(()=>{
     app.listen(5052, ()=>{
         console.log("Listen on port 5052.")
     });

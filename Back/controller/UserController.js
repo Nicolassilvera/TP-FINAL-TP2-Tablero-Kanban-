@@ -8,7 +8,10 @@ class UserControlller {
         try {
             const users = await User.findAll({
                 attributes: ["id", "name", "email"],
-                include: [{ model: Role, attributes: ["name"] }],
+                include: [{
+                    model: Role, 
+                    attributes: ["name"]  
+                }],
             });
             res.status(200).send({success:true, message:"All Users", data: users});
         } catch (error) {
@@ -33,7 +36,7 @@ class UserControlller {
             const {name, email, role_id, password} = req.body;
             const user = await User.create({name, email, role_id, password});
             if(!user) throw new Error("User cant be created");
-            res.status(200).send({success:true, message:"User Created", data: user});
+            res.status(200).send({success:true, message:"User Created"});
         } catch (error) {
             res.status(400).send({success:false, message: error.message});   
         }
@@ -71,14 +74,24 @@ class UserControlller {
     }
 
     login = async (req, res)=>{
-        try {
+        try { 
             const {email, password} = req.body;
-            const user = await User.findByPk({
+            const user = await User.findOne({
                 where:{email},
+                include: [{
+                    model: Role, 
+                    attributes: ["name"] 
+                }],
             });
             const validate = await user.validatePassword(password);
             if(!validate || !user) throw new Error("Invalid Credentials");
-            res.status(200).json({ success: true, message: "User removed" });
+            const payload = {
+                id: user.id,
+                role: user.Role
+            }
+            const token = generateToken(payload);
+            res.cookie("token", token);
+            res.status(200).json({ success: true, message: "User logued"});
         } catch (error) {
             res.status(400).send({success:false, message: error.message});
         }

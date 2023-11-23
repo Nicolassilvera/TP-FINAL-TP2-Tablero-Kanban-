@@ -11,7 +11,7 @@ const router = Router();
 router.use("/boards", boardRoutes);
 router.use("/items", itemRoutes);
 router.use("/user", userRoutes);
-router.use("role", roleRoutes)
+router.use("/role", roleRoutes)
 
 
 
