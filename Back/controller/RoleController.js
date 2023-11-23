@@ -1,8 +1,9 @@
 import {Role} from "../Models/index.js";
 
 class RoleController {
-    contructor() { }
-
+    
+    contructor(){}
+    
     getAllRoles = async (req, res) => {
         try {
 

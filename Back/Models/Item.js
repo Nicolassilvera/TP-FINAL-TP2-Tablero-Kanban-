@@ -1,7 +1,16 @@
 import {DataTypes as DT, Model} from "sequelize";
 import connection from "../connection/connection.js";
 
-class Item extends Model{}
+class Item extends Model{
+    addItems = async (board)=>{
+        const newBoard = board.items = await Item.findAll({
+            where:{
+                board_id: board.id,
+            }
+        });
+        return newBoard;
+    }
+}
 
 Item.init({
     tittle:{
@@ -11,8 +20,7 @@ Item.init({
             notEmpty:{
                 msg:"Name can't be empty",
             },
-            len: {
-                
+            len: {    
                 args: [2],
                 msg: "Min character: 2 ",
             },

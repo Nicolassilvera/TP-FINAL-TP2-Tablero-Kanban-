@@ -1,5 +1,5 @@
 import {User, Role} from "../Models/index.js";
-import { generateToken, verifyToken } from "../utils/jwt.js";
+import { generateToken } from "../utils/jwt.js";
 
 class UserControlller {
     constructor(){}

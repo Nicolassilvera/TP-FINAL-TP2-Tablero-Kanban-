@@ -7,7 +7,7 @@ class ItemControlller {
         try {
             const item = await Item.findAll(); 
             if(!item) throw new Error("Item not found");
-            res.status(200).send({success:true, message:"All Boards", data: item});
+            res.status(200).send({success:true, message:"All Items", data: item});
         } catch (error) {
             res.status(400).send({success:false, message: error.message});
         }
@@ -27,10 +27,10 @@ class ItemControlller {
 
     createItem = async (req, res)=>{
         try {
-            const {tittle} = req.body;
-            if(!tittle) throw new Error("Tittle can't be null or empty ");
-            const item = await Item.create(name);
-            res.status(200).send({success:true, message:"Board Created", data: item});
+            const {tittle, board_id} = req.body;
+            console.log(tittle);
+            const item = await Item.create({tittle, board_id});
+            res.status(200).send({success:true, message:"Item Created", data: item});
         } catch (error) {
             res.status(400).send({success:false, message: error.message});   
         }
