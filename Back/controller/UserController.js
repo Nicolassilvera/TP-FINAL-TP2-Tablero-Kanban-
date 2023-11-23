@@ -1,5 +1,5 @@
 import {User, Role} from "../Models/index.js";
-import { generateToken } from "../utils/jwt.js";
+import { generateToken, verifyToken } from "../utils/jwt.js";
 
 class UserControlller {
     constructor(){}
@@ -99,14 +99,8 @@ class UserControlller {
 
     me = async ()=>{
         try {
-            const users = await User.findAll({
-                attributes: ["id", "name", "email"],
-                include: [{
-                    model: Role, 
-                    attributes: ["name"]  
-                }],
-            });
-            res.status(200).send({success:true, message:"All Users", data: users});
+            const {user} = req.body;
+            res.status(200).send({success:true, message:"", data: "ok"});
         } catch (error) {
             res.status(400).send({success:false, message: error.message});
         }
