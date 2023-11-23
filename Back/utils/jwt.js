@@ -8,5 +8,6 @@ export const generateToken = (payload)=> {
 };
 
 export const verifyToken = (token)=>{
-
+    const verify = jwt.verify(token, "SECRET");
+    return verify;
 };

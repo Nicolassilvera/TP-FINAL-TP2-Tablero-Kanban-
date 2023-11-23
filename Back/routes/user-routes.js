@@ -6,6 +6,7 @@ const userRoutes = Router();
 const userControlller = new UserControlller();
 
 userRoutes.get("/", userControlller.getAllUsers);
+userRoutes.get("/me", userControlller.me);
 userRoutes.get("/:id", userControlller.getUserById);
 userRoutes.post("/", userControlller.createUser);
 userRoutes.post("/login", userControlller.login)

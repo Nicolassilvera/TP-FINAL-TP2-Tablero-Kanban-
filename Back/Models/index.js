@@ -17,6 +17,6 @@ User.belongsTo(Role, {
     foreignKey:"role_id"
 });
 
-
+ 
 
 export {Board, Item, User, Role};

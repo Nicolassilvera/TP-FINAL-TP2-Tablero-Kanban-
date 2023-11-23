@@ -96,6 +96,21 @@ class UserControlller {
             res.status(400).send({success:false, message: error.message});
         }
     }
+
+    me = async ()=>{
+        try {
+            const users = await User.findAll({
+                attributes: ["id", "name", "email"],
+                include: [{
+                    model: Role, 
+                    attributes: ["name"]  
+                }],
+            });
+            res.status(200).send({success:true, message:"All Users", data: users});
+        } catch (error) {
+            res.status(400).send({success:false, message: error.message});
+        }
+    }
 }
 
 export default UserControlller;
