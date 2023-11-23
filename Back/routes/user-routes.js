@@ -1,12 +1,12 @@
 import { Router } from "express";
-import jsonwebtoken from "jsonwebtoken"
 import UserControlller from "../controller/UserController.js";
+import { validateUser } from "../middleware/validateUser.js";
 
 const userRoutes = Router();
 const userControlller = new UserControlller();
 
+userRoutes.get("/me", validateUser, userControlller.me);
 userRoutes.get("/", userControlller.getAllUsers);
-userRoutes.get("/me", userControlller.me);
 userRoutes.get("/:id", userControlller.getUserById);
 userRoutes.post("/", userControlller.createUser);
 userRoutes.post("/login", userControlller.login)
