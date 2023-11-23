@@ -11,13 +11,16 @@ Board.init({
             notEmpty:{
                 msg:"Name can't be empty"
             },
-            min: 1, 
+            len: {
+                args: [2],
+                msg: "Min characters: 2",
+            }
         }
     },
 
 },{
     sequelize: connection,
-    modelName: "User",
+    modelName: "Board",
     timestamps:false,
 });
 

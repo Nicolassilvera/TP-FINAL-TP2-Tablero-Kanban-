@@ -1,16 +1,20 @@
 import { Router } from "express";
 import jsonwebtoken from "jsonwebtoken"
-const userRoutes = Router();
+import UserControlller from "../controller/UserController.js";
 
-//----------------------------------------11
+const userRoutes = Router();
+const userControlller = new UserControlller();
+
+userRoutes.get("/", userControlller.getAllUsers);
+userRoutes.get("/:id", userControlller.getUserById);
+userRoutes.post("/", userControlller.createUser);
+userRoutes.post("/login", userControlller.login)
+userRoutes.put("/:id", userControlller.updateUser);
+userRoutes.delete("/: id", userControlller.deleteUserById);
 
 const users = [
     {email:"admin@test.com", password:"1234", rol:"admin"},
 ]
-
-
-
-
 
 userRoutes.post("/", (req, res) =>{
     if(req.body){

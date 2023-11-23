@@ -1,15 +1,17 @@
-import {DataTypes as DT, Model} from "sequelize";
+import { DataTypes as DT, Model } from "sequelize";
 import connection from "../connection/connection.js";
 
-class Item extends Model{}
+class Role extends Model {}
 
-Item.init({
-    tittle:{
+Role.init(
+  {
+    name:{
         type: DT.STRING,
         allowNull: false,
+        unique: true,
         validate:{
             notEmpty:{
-                msg:"Name can't be empty",
+                msg:"Rol can't be empty",
             },
             len: {
                 
@@ -19,11 +21,10 @@ Item.init({
         }
     },
 
-},{
+  },{
     sequelize: connection,
-    modelName: "Item",
-    timestamps:false,
+    modelName: "Role",
+    timestamps: false,
 });
 
-
-export default Item;
+export default Role;
